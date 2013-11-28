@@ -1,0 +1,19 @@
+#! /bin/bash
+
+echo " Lancement de du Jeu "
+
+sleep 2
+
+echo " Arrivé du sur le champ de bataille des deux armée "
+
+sleep 2
+
+echo " Sortie des deux Champions "
+
+sleep 2
+
+echo " Bonne Chance "
+
+sleep 2
+
+love .
