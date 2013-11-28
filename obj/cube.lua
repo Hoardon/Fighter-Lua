@@ -10,7 +10,6 @@ setmetatable(cube, {
 
 function cube.new(name)
    local self = setmetatable({}, cube)
-   --self.value = init
    self.name = name
    self.x = 100
    self.y = 100
@@ -24,8 +23,8 @@ function cube.new(name)
    self.r = 255
    self.g = 255
    self.b = 255
-   self.scalex = 1
-   self.scaley = 1
+   self.scalex = 3
+   self.scaley = 3
    self.up = 5
    self.face = 0
    self.savex = self.scalex
@@ -80,9 +79,6 @@ end
 
 function cube.correction(self, X, Y, moovex, moovey)
 
---   print(" -->1 *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** " .. X .. " " .. Y )
-
-
    if moovex > X and X > 0 then
       moovex = X
    end
@@ -96,9 +92,6 @@ function cube.correction(self, X, Y, moovex, moovey)
 end
 
 function cube.correction2(self, X, Y, moovex, moovey)
-
---   print(" -->2 *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** " .. X .. " " .. Y )
-
 
    if moovey > Y and Y > 0 then
       moovey = Y
@@ -114,23 +107,8 @@ end
 
 function cube.travel(self, dt, time)
 
-   print("################################# START ##################################################")
    X = self.destx - self.x
    Y = self.desty - self.y 
-
---   print("Self.Scale --> " .. self.scale)
---   scale = 10
-
---   print(" *===============> " .. self.scalex .. " " .. self.scaley .. "\n")
-
---   self.scalex = 10
---   self.scaley = 10
-
-   print("--> " ..  X/Y)
-  -- print(" ===============> " .. X .. "/" .. Y .. " ** ")
---   print(" *===============> " .. self.scalex .. " " .. self.scaley .. "\n")
-  -- print(" ===============> " .. self.destx .. " " .. self.desty)
-  -- print(" ===============> " .. self.x .. " " .. self.y)
 
    g = 0
 
@@ -143,52 +121,49 @@ function cube.travel(self, dt, time)
    moovex = self:correction(X, Y, moovex, moovey)
    moovey = self:correction2(X, Y, moovex, moovey)
 
- --  print( " --------------------> " .. moovex .. "-" .. moovex .. " - " .. X .. "-" .. Y)
-   print( " --------------------> Pos. Actuelle = " .. self.x .. " - " .. self.y .. "  Destination = " .. self.destx .. " - " .. self.desty .. "   Deplacement =  " .. moovex .. " - " .. moovey)
-
    if X/Y > 0.1 and X/Y < 2 and X >= 0 and Y > 0 then
       g = 1
       self.x = self.x + moovex
       self.y = self.y + moovey
-      print("\n************************************\n" .. "-------------------------------------------------  *  ----------" .. "\n************************************\n")
+
    elseif X/Y > 0.1 and X/Y < 2 and X < 0 and Y < 0 then
       g = 1
       self.x = self.x - moovex
       self.y = self.y - moovey
-      print("\n************************************\n" .. "-------------------------------------------------  **  ----------" .. "\n************************************\n")
+
    elseif X/Y  < -0.1 and X/Y > -2 and X >= 0 and Y < 0 then
       g = 1
       self.x = self.x + moovex
       self.y = self.y - moovey
-      print("\n************************************\n" .. "-------------------------------------------------  ***  ----------" .. "\n************************************\n")
+
    elseif X/Y < -0.1 and X/Y > -2 and X < 0 and Y > 0 then
       g = 1
       self.x = self.x - moovex
       self.y = self.y + moovey
-      print("\n************************************\n" .. "-------------------------------------------------  ****  ----------" .. "\n************************************\n")
+
    elseif Y == 0 then
       self.y = self.y + moovey
       if X > 0 then
 	 g = 1
 	 self.x = self.x + moovex
-	    print("\n************************************\n" .. "11\n".. moovex .. " / " .. moovey .. "\n************************************\n")
+
       end
       if X < 0 then
 	 g = 1
 	 self.x = self.x - moovex
-	    print("\n************************************\n" .. "12\n".. moovex .. " / " .. moovey .. "\n************************************\n")
+
       end
    elseif X >= 0 then
       if Y > 0 then
 	 if X >= Y then
 	    g = 1 
 	    self.x = self.x + moovex
-	    print("\n************************************\n" .. "1\n".. moovex .. " / " .. moovey .. "\n************************************\n")
+
 	 end
 	 if Y > X then
 	    g = 1
 	    self.y = self.y + moovey
-	    print("\n************************************\n" .. "2\n".. moovex .. " / " .. moovey .. "\n************************************\n")
+
 	 end
       end
       if Y < 0 then
@@ -196,12 +171,12 @@ function cube.travel(self, dt, time)
 	 if X >= y then
 	    g = 1
 	    self.x = self.x + moovex
-	    print("\n************************************\n" .. "3\n" .. moovex .. " / " .. moovey .. "\n************************************\n")
+
 	 end
 	 if y > X then
 	    g = 1
 	    self.y = self.y - moovey
-	    print("\n************************************\n" .. "4\n".. moovex .. " / " .. moovey .. "\n************************************\n")
+
 	 end
       end
    elseif X < 0 then
@@ -210,12 +185,12 @@ function cube.travel(self, dt, time)
 	 if _x >= Y then
 	    g = 1
 	    self.x = self.x - moovex
-	    print("\n************************************\n" .. "5\n".. moovex .. " / " .. moovey .. "\n************************************\n")
+
 	 end
 	 if Y > _x then
 	    g = 1
 	    self.y = self.y + moovey
-	    print("\n************************************\n" .. "6\n".. moovex .. " / " .. moovey .. "\n************************************\n") 
+
 	 end
       end
       if Y < 0 then
@@ -223,41 +198,30 @@ function cube.travel(self, dt, time)
 	 if _x >= _y then
 	    g = 1
 	    self.x = self.x - moovex
-	    print("\n************************************\n" .. "7\n".. moovex .. " / " .. moovey .. "\n************************************\n")
+
 	 end
 	 if _y > _x then
 	    g = 1
 	    self.y = self.y - moovey
-	    print("\n************************************\n" .. "8\n".. moovex .. " / " .. moovey .. "\n************************************\n")
+
 	 end
       end
    elseif X == Y and X >= 0 then
       g = 1
       self.x = self.x + moovex
       self.y = self.y + moovey
-      print("\n************************************\n" .. "9\n".. moovex .. " / " .. moovey .. "\n************************************\n")
+
    elseif X == Y and X < 0 then
       g = 1
       self.x = self.x - moovex
       self.y = self.y - moovey
-      print("\n************************************\n" .. "10\n".. moovex .. " / " .. moovey .. "\n************************************\n")
+
    end
 
-   print( " --------------------> Pos. Actuelle = " .. self.x .. " - " .. self.y .. "  Destination = " .. self.destx .. " - " .. self.desty .. "   Deplacement =  " .. moovex .. " - " .. moovey)
 
-   print("G = " .. g .. "<-------")
    if g == 0 then
       print("PROBLEME !!")
    end
-
---   print(" END ===========> " .. self.scale[Dx - tmp1 .. "  " .. self.y - tmp2 )
-
---   self.x = math.floor(self.x)
---   self.y = math.floor(self.y)
-   --print(X .. " -- " .. Y)
-
-   --print("BASE: " .. self.x .. " - / - " .. self.y .. " *** DEST: " .. self.destx .. " - / - " .. self.desty)
-   print("################################# END! ##################################################")
 
 end
 
